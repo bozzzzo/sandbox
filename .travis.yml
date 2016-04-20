@@ -6,14 +6,37 @@ python:
 install:
 - echo "install"
 - env
+- npm install --save-dev travis-after-all
 script:
 - echo "test"
 - python -c 'import sys; print sys.version; sys.exit(int(sys.version_info[:3] < (2,7,6) or (2,8,0) < sys.version_info[:3]))'
 - env
+after_script:
+- |
+      declare exitCode;
+
+
+      # -- [1] -------------------------------------------------------
+
+      $(npm bin)/travis-after-all
+      exitCode=$?
+
+
+      # -- [2] -------------------------------------------------------
+
+      if [ $exitCode -eq 0 ]; then
+        echo "All builds pass!"
+      fi
+
+      if [ $exitCode -eq 1 ]; then
+        echo "Some builds fail!"
+      fi
+
+
 before_deploy:
 - echo "before_deploy"
 - echo "hello as of $(date)" > hello.txt
-- env
+- env | sort
 deploy:
   provider: releases
   api_key:
@@ -24,3 +47,4 @@ deploy:
     repo: bozzzzo/sandbox
     branch: master
     tags: true
+    condition: "$exitCode == 0"
