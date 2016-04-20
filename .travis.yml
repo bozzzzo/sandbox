@@ -5,15 +5,14 @@ python:
 - pypy
 install:
 - echo "install"
-- env
+- env | sort | awk '{print "install", $0}'
 - npm install --save-dev travis-after-all
 script:
 - echo "test"
 - python -c 'import sys; print sys.version; sys.exit(int(sys.version_info[:3] < (2,7,6) or (2,8,0) < sys.version_info[:3]))'
-- env
-after_script:
+- env | sort | awk '{print "script", $0}'
 - |
-      declare exitCode;
+      declare -x exitCode;
 
 
       # -- [1] -------------------------------------------------------
@@ -26,6 +25,7 @@ after_script:
 
       if [ $exitCode -eq 0 ]; then
         echo "All builds pass!"
+        export DO_THE_DEPLOY_PLEASE=aha
       fi
 
       if [ $exitCode -eq 1 ]; then
@@ -33,10 +33,12 @@ after_script:
       fi
 
 
+after_script:
+- echo "after_script"
 before_deploy:
 - echo "before_deploy"
 - echo "hello as of $(date)" > hello.txt
-- env | sort
+- env | sort | awk '{print "after_deploy", $0}'
 deploy:
   provider: releases
   api_key:
@@ -47,4 +49,4 @@ deploy:
     repo: bozzzzo/sandbox
     branch: master
     tags: true
-    condition: "$exitCode == 0"
+    condition: "$DO_THE_DEPLOY_PLEASE" = aha
