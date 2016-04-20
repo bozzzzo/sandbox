@@ -1,4 +1,6 @@
 language: python
+env:
+- DEPLOYMENT_TOKEN_FILE=.i.am.the.master.deployer
 python:
 - '2.7'
 - '3.3'
@@ -11,28 +13,7 @@ script:
 - echo "test"
 - python -c 'import sys; print(sys.version); sys.exit(int(sys.version_info[:3] < (2,7,6) or (3,4,0) < sys.version_info[:3]))'
 - env | sort | awk '{print "script", $0}'
-- |
-      declare -x exitCode;
-
-
-      # -- [1] -------------------------------------------------------
-
-      $(npm bin)/travis-after-all
-      exitCode=$?
-
-
-      # -- [2] -------------------------------------------------------
-
-      if [ $exitCode -eq 0 ]; then
-        echo "All builds pass!"
-        export DO_THE_DEPLOY_PLEASE=aha
-      fi
-
-      if [ $exitCode -eq 1 ]; then
-        echo "Some builds fail!"
-      fi
-
-
+- $(npm bin)/travis-after-all && touch $DEPLOYMENT_TOKEN_FILE || rm -f $DEPLOYMENT_TOKEN_FILE
 after_script:
 - echo "after_script"
 before_deploy:
@@ -49,4 +30,4 @@ deploy:
     repo: bozzzzo/sandbox
     branch: master
     tags: true
-    condition: $DO_THE_DEPLOY_PLEASE = aha
+    condition: -f $DEPLOYMENT_TOKEN_FILE
