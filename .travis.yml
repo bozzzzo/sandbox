@@ -8,6 +8,7 @@ install:
 - env
 script:
 - echo "test"
+- python --version | grep 2.7
 - env
 before_deploy:
 - echo "before_deploy"
