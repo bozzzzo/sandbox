@@ -3,15 +3,23 @@ python:
 - '2.7'
 - '3.3'
 - pypy
-
 install:
- - echo "install"
- - env
-
+- echo "install"
+- env
 script:
- - echo "test"
- - env
-
+- echo "test"
+- env
 before_deploy:
- - echo "before_deploy"
- - env
+- echo "before_deploy"
+- echo "hello as of $(date)" > hello.txt
+- env
+deploy:
+  provider: releases
+  api_key:
+    secure: QUbnJncuzOHqOYXc6TdZFwoYK+S4jhroGBZvqRX+ZDCEtdZlqx+lAnV9Zu8xxEAtEq+4X0OgN6wtMlbIus2jkHJL9yny2Jhh1J55c8sQg2Q3IdIestodvxryIr9McVaTg3rW9p9sgHS5qRZmbeKqcXOnMNNiXLXTwxOU+/C70UwrsXpNtERj5zp4/88rSR4K5zX7IhFyI7tdbkJDTj6A119KMQ+t0HdEmXaE9sKQm0PNI1jujrkrsuqQkdJiYxWh78tQxakVfMuRdPrd7knwNbcNUvFUtt5R48IxTJ3O5VwkQZbmUKBtXjXeC5bDxBPLlFsxJhfhDiBM+4o1prqe7in3l9n62DkV+xQdBL1gfzTyaILZ5OO68HuguCsWqx+G5eApjPLeLUCR3dhYEP8uwXY3xJdSrgDCDbWTpP4XXxDuIbVkFpeFqJ7efmlUi+HEJfyht5vUlNt0BjNG3M/lXTfEueprycXZL9G8h6jsUuNPXTC2FSVm4lbNkFeXRFSe2mNyD8QVaxMJDr4at/+e+G483OYqABNw3ypRuoLQ682Lryov2BMD52RD7wvU+V1Rtfx/Sh1q7Wd4qvJN5EXdDXWtqh+f1xp+RCuSuPHmnvObeH7Jj9/Vt7I1BdX91pyxcI3jGDVscvBX4dnjmCeFltpF9oKXcGc0Q2zNNhMuYUM=
+  file: hello.txt
+  skip_cleanup: true
+  on:
+    repo: bozzzzo/sandbox
+    branch: master
+    tags: true
