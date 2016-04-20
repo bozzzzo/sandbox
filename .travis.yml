@@ -9,7 +9,7 @@ install:
 - npm install --save-dev travis-after-all
 script:
 - echo "test"
-- python -c 'import sys; print sys.version; sys.exit(int(sys.version_info[:3] < (2,7,6) or (3,8,0) < sys.version_info[:3]))'
+- python -c 'import sys; print(sys.version); sys.exit(int(sys.version_info[:3] < (2,7,6) or (3,4,0) < sys.version_info[:3]))'
 - env | sort | awk '{print "script", $0}'
 - |
       declare -x exitCode;
