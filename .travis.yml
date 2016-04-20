@@ -49,4 +49,4 @@ deploy:
     repo: bozzzzo/sandbox
     branch: master
     tags: true
-    condition: "$DO_THE_DEPLOY_PLEASE" = aha
+    condition: $DO_THE_DEPLOY_PLEASE = aha
