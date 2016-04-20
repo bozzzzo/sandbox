@@ -16,6 +16,7 @@ script:
 - echo "test"
 - python -c 'import sys; print(sys.version); sys.exit(int(sys.version_info[:3] < (2,7,6)
   or (3,4,0) < sys.version_info[:3]))'
+- echo $REBUILD_TOKEN | wc -l
 - env | sort | awk '{print "script", $0}'
 - "$(npm bin)/travis-after-all && touch $DEPLOYMENT_TOKEN_FILE || rm -f $DEPLOYMENT_TOKEN_FILE"
 after_script:
