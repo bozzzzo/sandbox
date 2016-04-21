@@ -28,7 +28,7 @@ before_deploy:
 deploy:
 - provider: script
   on:
-    condition: -f $DEPLOYMENT_TOKEN_FILE -a "$STATE" = "initial"
+    condition: ( -f $DEPLOYMENT_TOKEN_FILE ) && ( "$STATE" = "initial" )
     repo: bozzzzo/sandbox
     branch: master
     tags: false
@@ -36,7 +36,7 @@ deploy:
   skip_cleanup: true
 - provider: script
   on:
-    condition: -f $DEPLOYMENT_TOKEN_FILE -a "$STATE" = "dev-stage-1"
+    condition: ( -f $DEPLOYMENT_TOKEN_FILE ) -a ( "$STATE" = "dev-stage-1" )
     repo: bozzzzo/sandbox
     branch: master
     tags: false
@@ -51,4 +51,4 @@ deploy:
     repo: bozzzzo/sandbox
     branch: master
     tags: true
-    condition: -f "$DEPLOYMENT_TOKEN_FILE" -a "$STATE" = release-dev
+    condition: ( -f "$DEPLOYMENT_TOKEN_FILE") && ( "$STATE" = release-dev )
