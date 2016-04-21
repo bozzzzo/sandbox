@@ -2,24 +2,38 @@
 
 set -e
 
-echo This is a deploy script
-echo "Respawn is '$RESPAWN'"
+echo Requesting a respawn with "$@"
 
-if [[ "$RESPAWN" == "false" ]]; then
-  echo Break loop
-  exit 0
+if [[ "$TRAVIS_BRANCH" != "" ]]; then
+  branch="\"branch\": \"$TRAVIS_BRANCH\","
+else
+  branch=""
 fi
-echo Requesting a respawn
 
+if [[ "$TRAVIS_COMMIT" != "" ]]; then
+  commit="\"commit_id\": \"$TRAVIS_COMMIT\","
+else
+  commit=""
+fi
+
+if [[ "$TRAVIS_TAG" != "" ]]; then
+  tag="\"tag\": \"$TRAVIS_TAG\","
+else
+  tag=""
+fi
+
+RESPAWN_TRACE="$RESPAWN_TRACE $TRAVIS_JOB_NUMBER"
 
 body=$(cat << EOF
 { "request": {
-    "message": "Override the commit message: this is an api request",
-    "branch": "$TRAVIS_BRANCH",
+    "message": "Respawn on $RESPAWN_TRACE with $(echo "$*" | sed -es:\":\\\":g)",
+    $branch
+    $commit
+    $tag
     "token": "$REBUILD_TOKEN",
     "config": {
       "env": {
-        "global": $(ruby scripts/travis.env.rb RESPAWN=false "$@")
+        "global": $(ruby scripts/travis.env.rb RESPAWN_TRACE="$RESPAWN_TRACE" "$@")
       }
     }
   }
