@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo This is a deploy script
 echo "Respawn is '$RESPAWN'"
 
