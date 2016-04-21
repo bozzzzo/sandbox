@@ -14,11 +14,11 @@ body=$(cat << EOF
 { "request": {
     "message": "Override the commit message: this is an api request",
     "branch": "$TRAVIS_BRANCH",
+    "token": "$REBUILD_TOKEN"
     "config": {
       "env": {
         "global": ["RESPAWN=false"]
       },
-      "script": "echo FOO"
     }
   }
 }
