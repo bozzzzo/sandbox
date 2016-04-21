@@ -22,7 +22,7 @@ else
   tag=""
 fi
 
-RESPAWN_TRACE="$RESPAWN_TRACE $TRAVIS_JOB_NUMBER"
+RESPAWN_TRACE="$TRAVIS_BUILD_NUMBER $RESPAWN_TRACE"
 RESPAWN_TOKEN=$(cat .respawn.token)
 
 body=$(cat << EOF
@@ -34,7 +34,7 @@ body=$(cat << EOF
     "token": "$RESPAWN_TOKEN",
     "config": {
       "env": {
-        "global": $(rvm 2.3.0 do ruby scripts/travis.env.rb RESPAWN_TRACE="$RESPAWN_TRACE" "$@")
+        "global": $(rvm 2.3.0 do ruby scripts/travis.env.rb "$@" RESPAWN_TRACE="$RESPAWN_TRACE")
       }
     }
   }
