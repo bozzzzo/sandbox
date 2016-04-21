@@ -33,7 +33,7 @@ body=$(cat << EOF
     "token": "$REBUILD_TOKEN",
     "config": {
       "env": {
-        "global": $(ruby scripts/travis.env.rb RESPAWN_TRACE="$RESPAWN_TRACE" "$@")
+        "global": $(rvm 2.3.0 do ruby scripts/travis.env.rb RESPAWN_TRACE="$RESPAWN_TRACE" "$@")
       }
     }
   }
