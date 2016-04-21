@@ -10,19 +10,18 @@ python:
 - '3.3'
 - pypy
 install:
+- rvm install ruby-2.3.0
 - rvm --default use 2.3.0
-- scripts/env.sh "  install  "
 - npm install --save-dev travis-after-all
 - gem install travis-yaml
 - echo SHOULD INSTALL $PACKAGE_UNDER_TEST
+- scripts/env.sh "  install  "
 script:
 - echo "test"
 - python -c 'import sys; print(sys.version); sys.exit(int(sys.version_info[:3] < (2,7,6)
   or (3,4,0) < sys.version_info[:3]))'
 - scripts/env.sh "  script  "
 - "$(npm bin)/travis-after-all && touch $DEPLOYMENT_TOKEN_FILE || rm -f $DEPLOYMENT_TOKEN_FILE"
-after_script:
-- echo "after_script"
 before_deploy:
 - echo "before_deploy"
 - echo "hello as of $(date)" > hello.txt
