@@ -3,21 +3,19 @@ env:
   matrix:
   - DEPLOYMENT_TOKEN_FILE=.i.am.the.master.deployer
   global:
-    secure: BznfOISy4UpH1MKw4Foz4z89RMkBw8Vb1yThl7XCGM9bpjVIGiTqISKaU0nswmFHyEXTYoC/iKrHFuwUa/GVPl7e25k6eY0KQtCgaaox0JqhrlMc00anA4dOash/S0p9l9g1VnOiA24cGGnLUuiHBAdPB046dcgeXcXxLO+fn5RmQ45ftjyHpPUWrA2HOGky4nC37zeQVWzfwFggvvvVHkSeiF0pS+PGoDNskqGLc+yE5mbADY2fBYELPdEcM5OzLgVPqkmhQAtzBBVQ2sy1iNTFxgIzV1hD2hpF+2JBuST00Ba4cHkdiAoSwiKe1u8eTy7e0Yqsa/zqmoqDO1SWFa0jzpw/ieOPXNRBcb5HxiMKSkGY9vQKB2LSJ9UJfvTTwX7PZvwvbRHuG08d0BdjS5DPbit4q6VVn0Gdu5AwxhDz+VDeo9cx3GN7PY5E3iQODSTiyhC4WFmV6QHsoPrEl0IwMITCwozkIxFKf+JLhlXrXnhdg5xzKG1/ki01Fd7wvfpfMEX26SjtIGFJ3WOcdYX/VJVqblCzpOZeX/CDJFFq3GuN1X5+ICjW6bjeRVi/u2bjJYX8mrbyMzWq23ITKyQUkVt/H/YnGLgC5yWZ9TkPBFXGZ0t+fEsB7fe5owefj0Ci/ppdOuVPdqNmRZN2/rpUJfXz0Jvrb6OO0IwrIE8=
+    secure: pUsJTvTu6LxLAGD5FC0Xi//tl8JdbFQXKmN804npXV1VBrdmH+tc25IVuzF9gHoLaT9B9cLjwNjRg5m99Jbql5duXyDhCFmsYpd00hNT9DevQMM4ZUw+NpqF+HfjQlGE1v0fa70hIBoqBUESh4m1VVKTt9I/eC0ZA7E806M1SH8xTN7wdTWpLplb1wtR0YmfXtvV634fZa+4p2IsoxoRHB2ftqUwdlreExTi24lo08zvq7pV0184AcKrO1WhEJgkl4EKBKNaY2rOmrVcjPPsk7o+IwxJcODO7V1wp00RSTHSggltew6TjoS6XzuvY0vcxdpWDt75g5WuXpoUn5GUH7cdknnZecc34xa0SXW9wnAPSuiFWvolcDUNMfU3Fs+hMPgCbA9mQ03JVx4PIhKGIXZSicMqRF339jiAinGyQR4+vlI31Ot3zJClgu8APz/Ql1gVz/xxuYXdjVjwfZgzHCyu9/cHH8e2dK7VJlur9S9Kx8XCpC+uVXgUt8E5m594i2t/Ra5UKo/zn0k3bryJ12/177WIWGUHqmXm+H5syUuTzpHsZ8ZpM1MKmfy4Cb83iRNCpsoF+SGZt5YZ7JFDamjdm0cNf21GWzlDAiMJBJrxGiOhUoCdAyRLPY+oVbCbxLLMbVtLw8X6X6q6qcBvasnodRprpai6GJSiOAzMMZ8=
 python:
 - '2.7'
 - '3.3'
 - pypy
 install:
-- echo "install"
-- env | sort | awk '{print "install", $0}'
+- scripts/env.sh "  install  "
 - npm install --save-dev travis-after-all
 script:
 - echo "test"
 - python -c 'import sys; print(sys.version); sys.exit(int(sys.version_info[:3] < (2,7,6)
   or (3,4,0) < sys.version_info[:3]))'
-- echo $REBUILD_TOKEN | wc -l
-- env | sort | awk '{print "script", $0}'
+- scripts/env.sh "  script  "
 - "$(npm bin)/travis-after-all && touch $DEPLOYMENT_TOKEN_FILE || rm -f $DEPLOYMENT_TOKEN_FILE"
 after_script:
 - echo "after_script"
@@ -37,7 +35,7 @@ deploy:
     tags: true
     condition: "-f $DEPLOYMENT_TOKEN_FILE"
 - provider: script
-  script: ./scripts/deploy.sh
+  script: "./scripts/deploy.sh"
   skip_cleanup: true
   on:
     repo: bozzzzo/sandbox
