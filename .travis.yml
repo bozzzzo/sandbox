@@ -12,6 +12,7 @@ python:
 install:
 - scripts/env.sh "  install  "
 - npm install --save-dev travis-after-all
+- gem install travis-yaml
 - echo SHOULD INSTALL $PACKAGE_UNDER_TEST
 script:
 - echo "test"
@@ -36,7 +37,7 @@ deploy:
   skip_cleanup: true
 - provider: script
   on:
-    condition: ( -f $DEPLOYMENT_TOKEN_FILE ) -a ( "$STATE" = "dev-stage-1" )
+    condition: ( -f $DEPLOYMENT_TOKEN_FILE ) && ( "$STATE" = "dev-stage-1" )
     repo: bozzzzo/sandbox
     branch: master
     tags: false
