@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo This is a deploy script
 echo "Respawn is '$RESPAWN'"
 
@@ -14,11 +16,11 @@ body=$(cat << EOF
 { "request": {
     "message": "Override the commit message: this is an api request",
     "branch": "$TRAVIS_BRANCH",
-    "token": "$REBUILD_TOKEN"
+    "token": "$REBUILD_TOKEN",
     "config": {
       "env": {
-        "global": ["RESPAWN=false"]
-      },
+        "global": $(ruby scripts/travis.env.rb RESPAWN=false "$@")
+      }
     }
   }
 }
