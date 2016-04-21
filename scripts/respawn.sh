@@ -24,6 +24,8 @@ fi
 
 RESPAWN_TRACE="$RESPAWN_TRACE $TRAVIS_JOB_NUMBER"
 
+set -x
+
 body=$(cat << EOF
 { "request": {
     "message": "Respawn on $RESPAWN_TRACE with $(echo "$*" | sed -es:\":\\\":g)",
