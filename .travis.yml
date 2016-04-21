@@ -40,7 +40,7 @@ deploy:
     repo: bozzzzo/sandbox
     branch: master
     tags: false
-  script: scripts/respawn.sh STATE=dev-stage-2 PACKAGE_UNDER_TEST="I don't want any"
+  script: scripts/respawn.sh STATE=dev-stage-2 PACKAGE_UNDER_TEST="what-if-I-dont-want-any..."
   skip_cleanup: true
 - provider: releases
   api_key:
@@ -51,4 +51,4 @@ deploy:
     repo: bozzzzo/sandbox
     branch: master
     tags: true
-    condition: "-f $DEPLOYMENT_TOKEN_FILE" -a "$STATE" = "release-dev"
+    condition: -f "$DEPLOYMENT_TOKEN_FILE" -a "$STATE" = release-dev
