@@ -1,10 +1,9 @@
 language: python
 env:
   global:
-    - secure: pUsJTvTu6LxLAGD5FC0Xi//tl8JdbFQXKmN804npXV1VBrdmH+tc25IVuzF9gHoLaT9B9cLjwNjRg5m99Jbql5duXyDhCFmsYpd00hNT9DevQMM4ZUw+NpqF+HfjQlGE1v0fa70hIBoqBUESh4m1VVKTt9I/eC0ZA7E806M1SH8xTN7wdTWpLplb1wtR0YmfXtvV634fZa+4p2IsoxoRHB2ftqUwdlreExTi24lo08zvq7pV0184AcKrO1WhEJgkl4EKBKNaY2rOmrVcjPPsk7o+IwxJcODO7V1wp00RSTHSggltew6TjoS6XzuvY0vcxdpWDt75g5WuXpoUn5GUH7cdknnZecc34xa0SXW9wnAPSuiFWvolcDUNMfU3Fs+hMPgCbA9mQ03JVx4PIhKGIXZSicMqRF339jiAinGyQR4+vlI31Ot3zJClgu8APz/Ql1gVz/xxuYXdjVjwfZgzHCyu9/cHH8e2dK7VJlur9S9Kx8XCpC+uVXgUt8E5m594i2t/Ra5UKo/zn0k3bryJ12/177WIWGUHqmXm+H5syUuTzpHsZ8ZpM1MKmfy4Cb83iRNCpsoF+SGZt5YZ7JFDamjdm0cNf21GWzlDAiMJBJrxGiOhUoCdAyRLPY+oVbCbxLLMbVtLw8X6X6q6qcBvasnodRprpai6GJSiOAzMMZ8=
-    - STATE=initial
-    - PACKAGE_UNDER_TEST=.
-    - DEPLOYMENT_TOKEN_FILE=.i.am.the.master.deployer
+  - STATE=initial
+  - PACKAGE_UNDER_TEST=.
+  - DEPLOYMENT_TOKEN_FILE=.i.am.the.master.deployer
 python:
 - '2.7'
 - '3.3'
@@ -54,3 +53,6 @@ deploy:
     branch: master
     tags: true
     condition: ( -f "$DEPLOYMENT_TOKEN_FILE") && ( "$STATE" = release-dev )
+before_install:
+- openssl aes-256-cbc -K $encrypted_4ff86a789e60_key -iv $encrypted_4ff86a789e60_iv
+  -in .respawn.token.enc -out .respawn.token -d

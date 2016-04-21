@@ -23,8 +23,7 @@ else
 fi
 
 RESPAWN_TRACE="$RESPAWN_TRACE $TRAVIS_JOB_NUMBER"
-
-set -x
+RESPAWN_TOKEN=$(cat .respawn.token)
 
 body=$(cat << EOF
 { "request": {
@@ -32,7 +31,7 @@ body=$(cat << EOF
     $branch
     $commit
     $tag
-    "token": "$REBUILD_TOKEN",
+    "token": "$RESPAWN_TOKEN",
     "config": {
       "env": {
         "global": $(rvm 2.3.0 do ruby scripts/travis.env.rb RESPAWN_TRACE="$RESPAWN_TRACE" "$@")
@@ -47,6 +46,6 @@ exec curl -s -X POST \
   -H "Content-Type: application/json" \
   -H "Accept: application/json" \
   -H "Travis-API-Version: 3" \
-  -H "Authorization: token $REBUILD_TOKEN" \
+  -H "Authorization: token $RESPAWN_TOKEN" \
   -d "$body" \
   https://api.travis-ci.org/repo/$(echo $TRAVIS_REPO_SLUG | sed -es_/_%2F_)/requests
