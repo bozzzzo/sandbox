@@ -19,7 +19,7 @@ script:
 - ruby scripts/travis.env.rb HAHA=HOHO
 - python -c 'import sys; print(sys.version); sys.exit(int(sys.version_info[:3] < (2,7,6)
   or (3,4,0) < sys.version_info[:3]))'
-- [[ "$STATE" != "dev-stage-1" ]]
+- test "$STATE" != dev-stage-1
 - scripts/env.sh "  script  "
 - "$(npm bin)/travis-after-all && touch $DEPLOYMENT_TOKEN_FILE || rm -f $DEPLOYMENT_TOKEN_FILE"
 before_deploy:
